@@ -1,24 +1,28 @@
-import React, { useCallback } from "react";
-import { useInput } from "../hooks";
-import Link from "next/link";
-import { Button } from "antd";
-import { useDispatch } from "react-redux";
-import { loginAction } from "../modules/store/user";
+import React, { useCallback } from 'react';
+import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { useInput } from '../hooks';
+import { LOG_IN_REQUEST } from '../modules/reducers/user';
 
 const LoginForm = () => {
-	const [id, onChangeId] = useInput("");
-	const [password, onChangePassword] = useInput("");
+	const [id, onChangeId] = useInput('');
+	const [password, onChangePassword] = useInput('');
+	const { isLoggingIn } = useSelector(state => state.user);
 	const dispatch = useDispatch();
 
-	const onSubmit = useCallback(e => {
-		e.preventDefault();
-		dispatch(
-			loginAction({
-				id,
-				password,
-			}),
-		);
-	}, []);
+	const onSubmit = useCallback(
+		e => {
+			e.preventDefault();
+			dispatch({
+				type: LOG_IN_REQUEST,
+				data: {
+					id,
+					password,
+				},
+			});
+		},
+		[id, password],
+	);
 
 	return (
 		<form onSubmit={onSubmit}>
@@ -32,15 +36,11 @@ const LoginForm = () => {
 				<input type="password" name="userPassword" value={password} onChange={onChangePassword} />
 			</div>
 			<div className="cell group">
-				<Button type="primary" htmlType="submit">
-					로그인
-				</Button>
+				<button type="submit">로그인</button>
 			</div>
 			<p>
-				아이디가 없으십니까?{" "}
-				<Link href="/signup">
-					<a>회원가입</a>
-				</Link>
+				아이디가 없으십니까?
+				<Link href="/signup"><a>회원가입</a></Link>
 			</p>
 		</form>
 	);

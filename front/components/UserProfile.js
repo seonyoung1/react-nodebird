@@ -1,16 +1,23 @@
 import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutAction } from "../modules/store/user";
+import { LOG_OUT_REQUEST } from "../modules/reducers/user";
 
 const UserProfile = () => {
 	const dispatch = useDispatch();
-	const { user } = useSelector(state => state.user);
+	const { me } = useSelector(state => state.user);
 	const onLogout = useCallback(() => {
-		dispatch(logoutAction);
+		dispatch({
+			type: LOG_OUT_REQUEST,
+		});
 	}, []);
 	return (
-		<div>
-			<p>안녕하세요. {user.nickname} 님</p>
+		<div className="profile">
+			<p>안녕하세요. {me.nickname} 님</p>
+			<ul>
+				<li>짹짹 <span>{me.Post.length}</span></li>
+				<li>팔로잉 <span>{me.Followings.length}</span></li>
+				<li>팔로워 <span>{me.Followers.length}</span></li>
+			</ul>
 			<button onClick={onLogout}>로그아웃</button>
 		</div>
 	);

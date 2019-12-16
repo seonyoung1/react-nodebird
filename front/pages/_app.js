@@ -6,7 +6,7 @@ import { applyMiddleware, compose, createStore } from "redux";
 import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import withReduxSaga from "next-redux-saga";
-import reducer from "../modules/store";
+import reducer from "../modules/reducers";
 import rootSaga from "../modules/sagas";
 import MyLayout from "../components/MyLayout";
 import "../public/styles/common.scss";
@@ -15,8 +15,7 @@ const MyApp = ({ Component, pageProps, store }) => (
 	<div id="wrapper">
 		<Provider store={store}>
 			<Head>
-				<title>News</title>
-				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.23.6/antd.css" />
+				<title>Node Bird</title>
 			</Head>
 			<MyLayout>
 				<Component {...pageProps} />

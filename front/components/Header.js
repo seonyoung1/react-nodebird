@@ -7,17 +7,13 @@ const Header = () => {
 			<nav>
 				<ul>
 					<li>
-						<Link>
-							<a>노드버드</a>
-						</Link>
+						<Link href="/"><a>노드버드</a></Link>
 					</li>
 					<li>
-						<Link>
-							<a>프로필</a>
-						</Link>
+						<Link href="/profile"><a>프로필</a></Link>
 					</li>
 					<li>
-						<div>
+						<div className="search">
 							<input type="text" />
 							<button type="button">Search</button>
 						</div>
