@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
+import Router from "next/router";
+import { useDispatch, useSelector } from "react-redux";
 import { useInput } from "../hooks";
-import { Button } from "antd";
-import { useDispatch } from "react-redux";
-import { signUpAction } from "../modules/store/user";
+import { SIGN_UP_REQUEST } from "../modules/reducers/user";
 
 const SignUp = () => {
 	const [id, onChangeId] = useInput("");
@@ -13,6 +13,14 @@ const SignUp = () => {
 	const [passwordError, setPasswordError] = useState(false);
 	const [termError, setTermError] = useState(false);
 	const dispatch = useDispatch();
+	const { me, isSigningUp, isSignedUp } = useSelector(state => state.user);
+
+	useEffect(() => {
+		if(me){
+			alert("로그인 되었습니다. 메인페이지로 이동합니다.");
+			Router.push("/");
+		}
+	}, [me && me.id]);
 
 	const onSubmit = useCallback(
 		e => {
@@ -24,14 +32,14 @@ const SignUp = () => {
 				return setTermError(true);
 			}
 			console.log({ id, nick, password, passwordChk, term });
-
-			dispatch(
-				signUpAction({
+			dispatch({
+				type: SIGN_UP_REQUEST,
+				data: {
 					id,
-					nick,
 					password,
-				}),
-			);
+					nick,
+				}
+			});
 		},
 		[password, passwordChk, term],
 	);
@@ -78,9 +86,7 @@ const SignUp = () => {
 					{termError && <p>약관에 동의해주세요</p>}
 				</div>
 				<div className="cell group">
-					<Button type="primary" htmlType="submit">
-						가입하기
-					</Button>
+					<button type="submit">가입하기</button>
 				</div>
 			</form>
 		</div>

@@ -28,6 +28,7 @@ body {
     letter-spacing:-0.01em; line-height:1.4; -webkit-font-smoothing : antialiased;
     color:#000;
 	font-family: 'NanumBarunGothic', sans-serif;
+    font-size:15px;
 }
 
 nav ul {
@@ -86,6 +87,7 @@ input, select, textarea {
     box-sizing:border-box;
     border-radius:0;
 	font-family: 'NanumBarunGothic', sans-serif;
+    font-size:1em;
 }
 input{
     margin:0;
@@ -106,6 +108,7 @@ button {
     background:transparent;
     cursor:pointer;
 	font-family: 'NanumBarunGothic', sans-serif;
+    font-size: 1em;
 }
 a{
     text-decoration:none;

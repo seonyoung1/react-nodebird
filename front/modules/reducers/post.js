@@ -26,7 +26,7 @@ export const initialState = {
             nickname: 'seonn'
         },
         content: '첫번째 게시글',
-        img: 'https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726',
+        img: 'http://loremflickr.com/1280/720',
         date: '2019-10-10',
         Comments: []
     }], // 화면에 보일 컨텐츠들

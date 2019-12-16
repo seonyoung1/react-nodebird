@@ -10,23 +10,22 @@ const LoginForm = () => {
 	const { isLoggingIn } = useSelector(state => state.user);
 	const dispatch = useDispatch();
 
-	const onSubmit = useCallback(
-		e => {
-			e.preventDefault();
-			dispatch({
-				type: LOG_IN_REQUEST,
-				data: {
-					id,
-					password,
-				},
-			});
-		},
-		[id, password],
-	);
+	const onSubmit = useCallback(e => {
+		e.preventDefault();
+		// if( id === "" ) return alert("아이디를 입력해 주세요");
+		// if( password === "" ) return alert("비밀번호를 입력해 주세요");
+		dispatch({
+			type: LOG_IN_REQUEST,
+			data: {
+				id,
+				password,
+			},
+		});
+	}, [id, password],);
 
 	return (
 		<form onSubmit={onSubmit}>
-			<h1>로그인</h1>
+			<h1 className="blind">로그인</h1>
 			<div className="cell">
 				<label htmlFor="userId">아이디</label>
 				<input type="text" name="userId" value={id} onChange={onChangeId} />
@@ -36,12 +35,9 @@ const LoginForm = () => {
 				<input type="password" name="userPassword" value={password} onChange={onChangePassword} />
 			</div>
 			<div className="cell group">
-				<button type="submit">로그인</button>
+				<button type="submit">{isLoggingIn ? "로그인 하는중" : "로그인"}</button>
+				<Link href="/signup"><button>회원가입</button></Link>
 			</div>
-			<p>
-				아이디가 없으십니까?
-				<Link href="/signup"><a>회원가입</a></Link>
-			</p>
 		</form>
 	);
 };
