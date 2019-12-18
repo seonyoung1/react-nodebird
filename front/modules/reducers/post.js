@@ -1,44 +1,3 @@
-const dummyPost = {
-    id: 2,
-    User: {
-        id: 1,
-        nickname: 'seonn'
-    },
-    content: '더미텍스트',
-    Comments: [],
-};
-
-const dummyComment = {
-    id: 1,
-    User: {
-        id: 1,
-        nickname: 'seonn'
-    },
-    createAt: new Date(),
-    content: '더미 댓글'
-};
-
-export const initialState = {
-    mainPosts: [{
-        id: 1,
-        User: {
-            id: 1,
-            nickname: 'seonn'
-        },
-        content: '첫번째 게시글',
-        img: 'http://loremflickr.com/1280/720',
-        date: '2019-10-10',
-        Comments: []
-    }], // 화면에 보일 컨텐츠들
-    imagePaths: [], // 미리보기 이미지 경로
-    addPostErrorReason: '', //포스트 업로드 실패 사유
-    isAddingPost: false, // 포스트 업로드 중
-    postAdded: false, // 포스트 업로드 성공
-    addCommentErrorReason: '',
-    isAddingComment: false,
-    commentAdded: false,
-};
-
 export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
 export const LOAD_MAIN_POSTS_SUCCESS = 'LOAD_MAIN_POSTS_SUCCESS';
 export const LOAD_MAIN_POSTS_FAILURE = 'LOAD_MAIN_POSTS_FAILURE';
@@ -85,6 +44,48 @@ export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
+const dummyPost = {
+    id: 2,
+    User: {
+        id: 1,
+        nickname: 'seonn'
+    },
+    content: '더미텍스트',
+    Comments: [],
+};
+
+const dummyComment = {
+    id: 1,
+    User: {
+        id: 1,
+        nickname: 'seonn'
+    },
+    createAt: new Date(),
+    content: '더미 댓글'
+};
+
+export const initialState = {
+    mainPosts: [{
+        id: 1,
+        User: {
+            id: 1,
+            nickname: 'seonn'
+        },
+        content: '첫번째 게시글',
+        img: 'https://loremflickr.com/cache/resized/65535_48846739162_08e864cdcc_h_1280_720_nofilter.jpg',
+        // img: 'http://loremflickr.com/1280/720',
+        date: '2019-10-10',
+        Comments: []
+    }], // 화면에 보일 컨텐츠들
+    imagePaths: [], // 미리보기 이미지 경로
+    addPostErrorReason: '', //포스트 업로드 실패 사유
+    isAddingPost: false, // 포스트 업로드 중
+    postAdded: false, // 포스트 업로드 성공
+    addCommentErrorReason: '',
+    isAddingComment: false,
+    commentAdded: false,
+};
+
 export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_POST_REQUEST: {
@@ -119,10 +120,18 @@ export default (state = initialState, action) => {
             }
         }
         case ADD_COMMENT_SUCCESS: {
+            const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
+            // state.mainPosts[postIndex].Comments.push(action.data.comment);
+            const post =  state.mainPosts[postIndex];
+            // const Comments = [...post.Comments, action.data.comment];
+            const Comments = [...post.Comments, dummyComment];
+            const mainPosts = [...state.mainPosts];
+            mainPosts[postIndex] = {...post, Comments };
             return{
                 ...state,
                 isAddingComment: false,
                 commentAdded: true,
+                mainPosts,
             }
         }
         case ADD_COMMENT_FAILURE: {

@@ -16,6 +16,7 @@ function* login() {
 	} catch (e) {
 		yield put({
 			type: LOG_IN_FAILURE,
+			error: e,
 		});
 	}
 }
@@ -39,6 +40,7 @@ function* signUp() {
 	} catch (e) {
 		yield put({
 			type: SIGN_UP_FAILURE,
+			error: e,
 		});
 	}
 }

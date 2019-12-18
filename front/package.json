@@ -5,13 +5,14 @@
 	"scripts": {
 		"dev": "next",
 		"build": "next build",
-		"start": "NODE_ENV=production next"
+		"start": "cross-env NODE_ENV=production next"
 	},
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
 		"@zeit/next-sass": "^1.0.1",
 		"axios": "^0.19.0",
+		"cross-env": "^6.0.3",
 		"next": "^9.1.2",
 		"next-redux-saga": "^4.1.2",
 		"next-redux-wrapper": "^4.0.1",

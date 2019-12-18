@@ -38,18 +38,23 @@ const PostCard = ({ post }) => {
 	return (
 		<div className="post">
 			<div className="login_info">
-				<p className="retweet_msg">님이 리트윗 하셨습니다.</p>
+				<p className="retweet_msg">{}님이 리트윗 하셨습니다.</p>
 				<button type="button">팔로우</button>
 			</div>
 			<div className="inner">
 				{post.img &&
 					<img src={post.img} alt="" />
 				}
-				<p className="user">{post.User.nickname}</p>
-				<p className="description">
-					{post.content}
-					<span className="date">{post.date}</span>
-				</p>
+				<div className="box">
+					<p className="user">
+						{post.User.nickname}
+						<span className="date">{post.date}</span>
+					</p>
+					<p className="desc">
+						{post.content}
+					</p>
+				</div>
+
 				<div className="group">
 					<button type="button" className="retweet">
 						리트윗
@@ -69,7 +74,7 @@ const PostCard = ({ post }) => {
 				<div className="comment">
 					<form onSubmit={onSubmitComment} className="comment_box">
 						<textarea value={commentText} onChange={onChangeCommentText} />
-						<button type="submit" className={isAddingComment ? "loading" : ""}>삐약</button>
+						<button type="submit">{isAddingComment ? "삐약삐약삐약" : "삐약"}</button>
 					</form>
 					<ul className="comment_list">
 						{post.Comments.map(item =>

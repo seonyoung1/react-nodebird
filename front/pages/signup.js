@@ -1,24 +1,24 @@
-import React, { useEffect, useCallback, useState } from "react";
-import Router from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { useInput } from "../hooks";
-import { SIGN_UP_REQUEST } from "../modules/reducers/user";
+import React, { useEffect, useCallback, useState } from 'react';
+import Router from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
+import { useInput } from '../hooks';
+import { SIGN_UP_REQUEST } from '../modules/reducers/user';
 
 const SignUp = () => {
-	const [id, onChangeId] = useInput("");
-	const [nick, onChangeNick] = useInput("");
-	const [password, onChangePassword] = useInput("");
-	const [passwordChk, setPasswordChk] = useState("");
+	const [id, onChangeId] = useInput('');
+	const [nick, onChangeNick] = useInput('');
+	const [password, onChangePassword] = useInput('');
+	const [passwordChk, setPasswordChk] = useState('');
 	const [term, setTerm] = useState(false);
 	const [passwordError, setPasswordError] = useState(false);
 	const [termError, setTermError] = useState(false);
 	const dispatch = useDispatch();
-	const { me, isSigningUp, isSignedUp } = useSelector(state => state.user);
+	const { me, isSigningUp } = useSelector(state => state.user);
 
 	useEffect(() => {
-		if(me){
-			alert("로그인 되었습니다. 메인페이지로 이동합니다.");
-			Router.push("/");
+		if (me) {
+			alert('로그인 되었습니다. 메인페이지로 이동합니다.');
+			Router.push('/');
 		}
 	}, [me && me.id]);
 
@@ -31,14 +31,14 @@ const SignUp = () => {
 			if (!term) {
 				return setTermError(true);
 			}
-			console.log({ id, nick, password, passwordChk, term });
+			// console.log({ id, nick, password, passwordChk, term });
 			dispatch({
 				type: SIGN_UP_REQUEST,
 				data: {
 					id,
 					password,
 					nick,
-				}
+				},
 			});
 		},
 		[password, passwordChk, term],
@@ -86,7 +86,7 @@ const SignUp = () => {
 					{termError && <p>약관에 동의해주세요</p>}
 				</div>
 				<div className="cell group">
-					<button type="submit">가입하기</button>
+					<button type="submit">{isSigningUp?"가입하는중..":"가입하기"}</button>
 				</div>
 			</form>
 		</div>
