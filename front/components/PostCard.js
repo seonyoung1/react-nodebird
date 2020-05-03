@@ -38,7 +38,7 @@ const PostCard = ({ post }) => {
 	return (
 		<div className="post">
 			<div className="login_info">
-				<p className="retweet_msg">{}님이 리트윗 하셨습니다.</p>
+				<p className="retweet_msg">{/*님이 리트윗 하셨습니다.*/}</p>
 				<button type="button">팔로우</button>
 			</div>
 			<div className="inner">
@@ -47,7 +47,9 @@ const PostCard = ({ post }) => {
 				}
 				<div className="box">
 					<p className="user">
-						{post.User.nickname}
+						닉네임
+						{/*{console.log(post.User.nickname !== null ? post.User.nickname : '')}*/}
+						{/*{post.User.nickname !== null ? post.User.nickname : ''}*/}
 						<span className="date">{post.date}</span>
 					</p>
 					<p className="desc">
@@ -95,7 +97,7 @@ PostCard.propTypes = {
 		User: PropTypes.object,
 		content: PropTypes.string,
 		img: PropTypes.string,
-		createdAt: PropTypes.object,
+		createdAt: PropTypes.string,
 		date: PropTypes.string,
 		id: PropTypes.number,
 		Comments: PropTypes.array,

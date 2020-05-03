@@ -17,9 +17,9 @@ const UserProfile = () => {
 				<button onClick={onLogout}>로그아웃</button>
 			</div>
 			<ul>
-				<li>짹짹 <span>{me.Post.length}</span></li>
-				<li>팔로잉 <span>{me.Followings.length}</span></li>
-				<li>팔로워 <span>{me.Followers.length}</span></li>
+				<li>짹짹 <span>{!me.Posts ? 0 : me.Posts.length}</span></li>
+				<li>팔로잉 <span>{!me.Followings ? 0 : me.Followings.length}</span></li>
+				<li>팔로워 <span>{!me.Followers ? 0 : me.Followers.length}</span></li>
 			</ul>
 		</div>
 	);

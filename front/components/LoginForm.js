@@ -16,10 +16,10 @@ const LoginForm = () => {
 		// if( password === "" ) return alert("비밀번호를 입력해 주세요");
 		dispatch({
 			type: LOG_IN_REQUEST,
-			data: {
-				id,
-				password,
-			},
+			// data: {
+			// 	userId : id,
+			// 	password,
+			// },
 		});
 	}, [id, password],);
 

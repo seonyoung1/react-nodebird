@@ -6,6 +6,7 @@ const PostForm = () => {
 	const dispatch = useDispatch();
 	const [text, setText] = useState('');
 	const { imagePaths, isAddingPost, postAdded } = useSelector(state => state.post);
+	const { me } = useSelector(state => state.user);
 
 	useEffect(() => {
 		if (postAdded) {
@@ -15,13 +16,20 @@ const PostForm = () => {
 
 	const onSubmitForm = useCallback(e => {
 		e.preventDefault();
+		if( !text || !text.trim() ){
+			return alert('내용을 입력해주세요');
+		}
 		dispatch({
 			type: ADD_POST_REQUEST,
 			data: {
-				text,
+				content: text.trim(),
+				User: {
+					userId : me.userId,
+					nickname: me.nickname,
+				}
 			},
 		});
-	}, []);
+	}, [text]);
 
 	const onChangeText = useCallback(e => {
 		setText(e.target.value);
