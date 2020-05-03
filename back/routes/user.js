@@ -2,11 +2,14 @@ const express = require('express');
 const db = require('../models');
 const bcrypt = require('bcrypt');
 
+
 const router = express.Router();
 
 router.get("/", (req, res) => {
 });
-router.post("/", async (req, res, next) => { // 회원가입
+
+// 회원가입
+router.post("/", async (req, res, next) => {
     try {
         const exUser = await db.User.findOne({
             // 기존에 가입되어 있는지 확인
