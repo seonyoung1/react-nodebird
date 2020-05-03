@@ -5,9 +5,15 @@ const passport = require('passport');
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+// 로그인 되어 있을 경우 정보 가져오기
+router.get('/', (req, res) => { // /api/user/
+    if (!req.user) {
+        return res.status(401).send('로그인이 필요합니다.');
+    }
+    const user = Object.assign({}, req.user.toJSON());
+    delete user.password;
+    return res.json(req.user);
 });
-
 // 회원가입
 router.post("/", async (req, res, next) => {
     try {
