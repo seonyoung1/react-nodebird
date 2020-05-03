@@ -1,7 +1,7 @@
 const express = require('express');
 const db = require('../models');
 const bcrypt = require('bcrypt');
-
+const passport = require('passport');
 
 const router = express.Router();
 
@@ -34,18 +34,69 @@ router.post("/", async (req, res, next) => {
         return next(e);
     }
 });
+
 router.get("/:id", (req, res) => {
 });
+
+// 로그아웃
 router.post("/logout", (req, res) => {
+    req.logout();
+    req.session.destroy();
+    req.send('logout 성공');
 });
-router.post("/login", (req, res) => {
+
+// 로그인
+router.post("/login", (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => { // 서버 에러, 성공 여부, 로직상 에러
+        // console.log(err, user, info)
+        if( err ){
+            console.error(e);
+            next(err);
+        }
+        if( info ){
+            // console.log(info.reason)
+            return res.status(401).send(info.reason);
+        }
+        return req.login(user, async (loginErr) => {
+            if( loginErr ){
+                return next(loginErr);
+            }
+            const fullUser = await db.User.findOne({
+                where: { id: user.id },
+                include: [{
+                    model: db.Post,
+                    as: 'Posts',
+                    attributes: ['id'], // id 정보만 보낸다
+                }, {
+                    model: db.User,
+                    as: 'Followings',
+                    attributes: ['id'],
+                }, {
+                    model: db.User,
+                    as: 'Followers',
+                    attributes: ['id'],
+                }],
+                attributes: ['id', 'nickname', 'userId'],
+            });
+            console.log(fullUser);
+            return res.json(fullUser);
+            // console.log('login', user);
+            // const filteredUser = Object.assign({}, user.toJSON());
+            // delete filteredUser.password;
+            // return res.json(user); // 성공하면 프론트로 사용자 정보를 보내줌, pw 는 위험하니까 빼고 보낸다
+        });
+    })(req, res, next);
 });
+
 router.get("/:id/follow", (req, res) => {
 });
+
 router.post("/:id/follow", (req, res) => {
 });
+
 router.delete("/:id/follower", (req, res) => {
 });
+
 router.get("/:id/posts", (req, res) => {
 });
 

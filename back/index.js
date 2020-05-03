@@ -20,7 +20,10 @@ passportConfig();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin: true, // 요청 허락
+  credentials: true, // 쿠키를 받을 수 있도록 허락
+}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(expressSession({
   resave: false, // 매번 새션 강제 저장
@@ -29,7 +32,8 @@ app.use(expressSession({
   cookie: {
     httpOnly: true, // 해킹 공격 등 방어
     secure: false, // https 사용할 때 사용
-  }
+  },
+  name: 'rnbck', // 이름을 변경해 주는게 보안에 도움이 된다
 }));
 app.use(passport.initialize());
 app.use(passport.session());

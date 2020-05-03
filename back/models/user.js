@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       db.User.hasMany(db.Post, {as: 'Posts'});
       db.User.hasMany(db.Comment);
       db.User.belongsToMany(db.Post, { through: 'Like', as: 'Liked' });
-      db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'followingId' });
+      db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followers', foreignKey: 'followingId' }); // 테이블 이름이 같아서 서로 구별 하기 위해 이름을 지어줌
       db.User.belongsToMany(db.User, { through: 'Follow', as: 'Followings', foreignKey: 'followerId' });
   };
   return User;
