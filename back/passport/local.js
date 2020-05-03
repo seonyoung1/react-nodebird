@@ -1,7 +1,7 @@
 const passport = require('passport');
-const { Strategy : LocalStrategy } = require('passport-locals');
+const { Strategy: LocalStrategy } = require('passport-local');
 const bcrypt = require('bcrypt');
-const db = require('../config');
+const db = require('../models');
 
 module.exports = () => {
     passport.use(new LocalStrategy({
@@ -9,22 +9,18 @@ module.exports = () => {
         passwordField: 'password',
     }, async (userId, password, done) => {
         try {
-            // 사용자 있는지 검색
-            const user = await db.User.findOne({
-                where : { userId }
-            });
-            if( !user ){
-                return done(null, false, { reason : '존재 하지 않는 사용자 입니다.' }); // 서버쪽에러, 성공여부, 로직상에러
+            const user = await db.User.findOne({ where: { userId } });
+            if (!user) {
+                return done(null, false, { reason: '존재하지 않는 사용자입니다!' });
             }
-            // 비밀번호 검색
-            const result = await bcrypt.compare(password, user.password); // 비밀번호 비교
-            if( result ){
+            const result = await bcrypt.compare(password, user.password);
+            if (result) {
                 return done(null, user);
             }
-            return done(null, false, { reason : '비밀번호가 틀립니다.' })
+            return done(null, false, { reason: '비밀번호가 틀립니다.' });
         } catch (e) {
             console.error(e);
             return done(e);
         }
     }));
-}
+};

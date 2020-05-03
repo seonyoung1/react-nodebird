@@ -1,25 +1,26 @@
 const passport = require('passport');
-const db = require('../config');
-const local = require('local');
+const db = require('../models');
+const local = require('./local');
 
 module.exports = () => {
-    passport.serializeUser((user, done) => { // 서버쪽에 [{id: 3, cookie: 'asdfg'}] 를 저장, 가벼운 객체로 저장하여 서버쪽 부담을 최소화한다.
+    passport.serializeUser((user, done) => { // 서버쪽에 [{ id: 3, cookie: 'asdfgh' }]
         return done(null, user.id);
     });
-    passport.deserializeUser(async(id, done) => { // 가져온 id 로 유저정보를 db로 불러온다.
+
+    passport.deserializeUser(async (id, done) => {
         try {
             const user = await db.User.findOne({
-                where: { id }
+                where: { id },
             });
-            return done(null, user); //req.user
-        }catch (e) {
+            return done(null, user); // req.user
+        } catch (e) {
             console.error(e);
             return done(e);
         }
     });
 
     local();
-}
+};
 
 // 프론트에서 서버로는 cookie만 보내요(asdfgh)
 // 서버가 쿠키파서, 익스프레스 세션으로 쿠키 검사 후 id: 3 발견
